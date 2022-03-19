@@ -1,0 +1,72 @@
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { UserService } from 'src/app/user.service';
+import { Comments, User, ScoresEvent } from '../../model/model';
+
+
+@Component({
+  selector: 'app-comments-shell',
+  templateUrl: './comments-shell.component.html',
+  styleUrls: ['./comments-shell.component.css']
+})
+export class CommentsshellComponent implements OnInit {
+  @Input() comments!: Comments[];
+  @Input() comment!: Comments;
+
+  commentslist: Comments[] = []
+  currentUser!: User;
+
+
+  ngOnInit(): void {
+    this.userService.getusers().then(
+      data => {
+        this.commentslist = data.comments;
+        this.currentUser = data.currentUser;
+
+      });
+
+
+  }
+
+  constructor(private userService: UserService) { }
+
+
+  onScoreHandler({ id, type }: ScoresEvent) {
+    this.commentslist.forEach(item => {
+      if (item.id == id) {
+        if (type == "minus") {
+          --item.score;
+        } else {
+          ++item.score;
+        }
+      }
+    })
+  }
+  onScoreReplyHandler({ id, type }: ScoresEvent) {
+    this.commentslist.replies.forEach(item => {
+      if (item.id == id) {
+        if (type == "minus") {
+          --item.score;
+        } else {
+          ++item.score;
+        }
+      }
+    })
+  }
+
+
+
+  onCommenthandler(content: string) {
+    const newComment: Comments = {
+      content: content,
+      createdAt: JSON.stringify(new Date(Date.now())),
+      score: 0,
+      user: this.currentUser,
+      replies: []
+    }
+
+    this.commentslist.push(newComment);
+
+  }
+
+
+}
