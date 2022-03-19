@@ -2,10 +2,10 @@
     <div class="flex-container">
         <div class="user-info1">
             <div class="avatar1">
-                <img class="avatars" src="{{currentUser.image.png}}" />
+                <img class="avatars" src="{{currentUser?.image?.png}}" />
             </div>
 
-            <span>{{currentUser.username}}</span>
+            <span>{{currentUser?.username}}</span>
 
             <div class="rpl-block">
                 <textarea class="rpl-text" [(ngModel)]="content"></textarea>

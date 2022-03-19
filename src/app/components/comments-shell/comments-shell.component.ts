@@ -35,6 +35,9 @@ export class CommentsshellComponent implements OnInit {
       if (item.id == id) {
         if (type == "minus") {
           --item.score;
+          if (item.score < 0) {
+            item.score = 0;
+          }
         } else {
           ++item.score;
         }
@@ -42,15 +45,23 @@ export class CommentsshellComponent implements OnInit {
     })
   }
   onScoreReplyHandler({ id, type }: ScoresEvent) {
-    this.commentslist.replies.forEach(item => {
-      if (item.id == id) {
-        if (type == "minus") {
-          --item.score;
-        } else {
-          ++item.score;
+    this.commentslist.forEach(item => {
+      item.replies.forEach(reply => {
+        if ((reply.id == id)) {
+          if (type == "minus") {
+            --reply.score;
+            if (reply.score < 0) {
+              reply.score = 0;
+            }
+          } else {
+            ++reply.score;
+          }
+
         }
-      }
+      })
     })
+
+
   }
 
 

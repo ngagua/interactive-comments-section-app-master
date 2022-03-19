@@ -10,16 +10,16 @@ import { UserService } from 'src/app/user.service';
 export class NewCommentComponent implements OnInit {
 
   @Output() onComment: EventEmitter<string> = new EventEmitter<string>();
+  @Input() currentUser!: User;
 
 
   content: string = '';
-  currentUser!: User;
 
-  constructor(private userService: UserService) { }
+
+  constructor() { }
 
   ngOnInit(): void {
-    this.userService.getusers().then(
-      data => this.currentUser = data.currentUser);
+
   }
 
   addComment() {
